@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.security;
+package io.dzung.mvcauthdemo.service;
 
 import java.util.Optional;
 
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import io.dzung.mvcauthdemo.config.AuthUser;
 import io.dzung.mvcauthdemo.model.User;
 import io.dzung.mvcauthdemo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

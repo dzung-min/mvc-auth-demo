@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.security;
+package io.dzung.mvcauthdemo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

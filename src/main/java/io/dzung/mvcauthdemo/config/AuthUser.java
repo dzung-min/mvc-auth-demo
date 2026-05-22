@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.security;
+package io.dzung.mvcauthdemo.config;
 
 import java.util.Collection;
 import java.util.List;
