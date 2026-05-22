@@ -8,7 +8,7 @@
 <body>
     <h1>Login</h1>
     <p th:if="${param.error}">Invalid email and password</p>
-    <p th:if="${register_success}">Register successfully</p>
+    <p th:if="${register_success}" th:text="${register_success}"></p>
     <form th:action="@{/login}" method="post">
         <div>
             <label for="email">Email</label>
