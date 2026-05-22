@@ -9,5 +9,4 @@ public class MvcauthdemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MvcauthdemoApplication.class, args);
 	}
-
 }

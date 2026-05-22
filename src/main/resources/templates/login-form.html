@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mvc Auth Demo</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <p th:if="${param.error}">Invalid email and password</p>
+    <p th:if="${register_success}">Register successfully</p>
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+        <div>
+            <input type="submit" value="Login">
+            <a th:href="@{/register}">Register</a>
+        </div>
+    </form>
+</body>
+</html>
