@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .usernameParameter("email")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/")
                         .failureUrl("/login?error"))
