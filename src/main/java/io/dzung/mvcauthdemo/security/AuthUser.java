@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.config;
+package io.dzung.mvcauthdemo.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,10 +31,5 @@ public class AuthUser implements UserDetails {
     @Override
     public String getUsername() {
         return user.getEmail();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return user.isEnable();
     }
 }

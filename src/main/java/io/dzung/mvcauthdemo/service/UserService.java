@@ -8,6 +8,7 @@ import io.dzung.mvcauthdemo.exception.EmailExistException;
 import io.dzung.mvcauthdemo.exception.PasswordMisMatchException;
 import io.dzung.mvcauthdemo.model.User;
 import io.dzung.mvcauthdemo.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,17 +17,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void createUser(RegisterDto registerDto) throws EmailExistException, PasswordMisMatchException {
+    @Transactional
+    public User createUser(RegisterDto registerDto) throws EmailExistException, PasswordMisMatchException {
         if (!registerDto.isPasswordMatch()) {
-            throw PasswordMisMatchException.getInstance();
+            throw new PasswordMisMatchException();
         }
         User existingUser = userRepository.findByEmail(registerDto.email()).orElse(null);
         if (existingUser != null) {
-            throw EmailExistException.getInstance();
+            throw new EmailExistException();
         }
         User newUser = new User();
         newUser.setEmail(registerDto.email());
         newUser.setPassword(passwordEncoder.encode(registerDto.password()));
-        userRepository.save(newUser);
+        return userRepository.save(newUser);
     }
 }

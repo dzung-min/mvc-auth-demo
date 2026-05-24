@@ -1,16 +1,9 @@
 package io.dzung.mvcauthdemo.exception;
 
-public class EmailExistException extends Throwable {
-    private static EmailExistException instance;
+public class EmailExistException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
 
-    private EmailExistException() {
+    public EmailExistException() {
         super("Email is already in use");
-    }
-
-    public static EmailExistException getInstance() {
-        if (instance == null) {
-            instance = new EmailExistException();
-        }
-        return instance;
     }
 }
