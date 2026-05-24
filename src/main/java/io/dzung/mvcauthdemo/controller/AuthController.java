@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.dzung.mvcauthdemo.config.EventPublisher;
 import io.dzung.mvcauthdemo.dto.RegisterDto;
-import io.dzung.mvcauthdemo.event.AfterRegisterEvent;
+import io.dzung.mvcauthdemo.event.RegisterEvent;
 import io.dzung.mvcauthdemo.exception.EmailExistException;
 import io.dzung.mvcauthdemo.exception.PasswordMisMatchException;
 import io.dzung.mvcauthdemo.model.User;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	private final UserService userService;
-	private final EventPublisher<AfterRegisterEvent> eventPublisher;
+	private final EventPublisher<RegisterEvent> eventPublisher;
 	private final VerificationTokenService verificationTokenService;
 
 	@GetMapping("/register")
@@ -39,7 +39,7 @@ public class AuthController {
 		try {
 			User user = userService.createUser(registerDto);
 			String token = verificationTokenService.createToken(user);
-			AfterRegisterEvent event = new AfterRegisterEvent(user, token);
+			RegisterEvent event = new RegisterEvent(user, token);
 			eventPublisher.publish(event);
 		} catch (Throwable e) {
 			if (e instanceof PasswordMisMatchException) {

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class AfterRegisterEvent {
+public class RegisterEvent {
 	private final User user;
 	private final String token;
 }
