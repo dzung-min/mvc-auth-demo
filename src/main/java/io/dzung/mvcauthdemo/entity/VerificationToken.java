@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.model;
+package io.dzung.mvcauthdemo.entity;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 /**
  * Represent time-sensitive security token for verifying user's email address.
- * User's account will be disable until the token is verified.
+ * User's account will be disabled until the token is verified.
  */
 @Entity
 @Table(name = "verification_token")

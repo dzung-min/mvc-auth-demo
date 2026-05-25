@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import io.dzung.mvcauthdemo.config.AuthUser;
-import io.dzung.mvcauthdemo.model.User;
+import io.dzung.mvcauthdemo.entity.User;
 import io.dzung.mvcauthdemo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 

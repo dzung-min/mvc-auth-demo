@@ -15,10 +15,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/logout", "/register", "/confirm", "/reissue").permitAll() // endpoints for authentication
+                        .requestMatchers("/login", "/logout", "/register", "/verify", "/reissue").permitAll() // endpoints for authentication
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // static resources
                         .anyRequest().authenticated())
                 .formLogin(form -> form
@@ -27,7 +27,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/")
                         .failureUrl("/login?error"))
-                // if we don't config the logout then all of these will be apply by default
+                // if we don't config the logout then all of these will be applied by default
                 // I just implement it for reference only
                 .logout(logout -> logout
 

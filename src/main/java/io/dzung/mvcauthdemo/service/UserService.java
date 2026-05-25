@@ -4,9 +4,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.dzung.mvcauthdemo.dto.RegisterDto;
-import io.dzung.mvcauthdemo.exception.EmailExistException;
-import io.dzung.mvcauthdemo.exception.PasswordMisMatchException;
-import io.dzung.mvcauthdemo.model.User;
+import io.dzung.mvcauthdemo.util.exception.EmailExistException;
+import io.dzung.mvcauthdemo.util.exception.PasswordMisMatchException;
+import io.dzung.mvcauthdemo.entity.User;
 import io.dzung.mvcauthdemo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

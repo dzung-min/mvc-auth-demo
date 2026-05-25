@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import io.dzung.mvcauthdemo.model.User;
-import io.dzung.mvcauthdemo.model.VerificationToken;
+import io.dzung.mvcauthdemo.entity.User;
+import io.dzung.mvcauthdemo.entity.VerificationToken;
 import io.dzung.mvcauthdemo.repository.VerificationTokenRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
