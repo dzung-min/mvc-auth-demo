@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.model;
+package io.dzung.mvcauthdemo.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

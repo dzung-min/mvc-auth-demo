@@ -1,11 +1,12 @@
 package io.dzung.mvcauthdemo.service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import io.dzung.mvcauthdemo.model.User;
-import io.dzung.mvcauthdemo.model.VerificationToken;
+import io.dzung.mvcauthdemo.entity.User;
+import io.dzung.mvcauthdemo.entity.VerificationToken;
 import io.dzung.mvcauthdemo.repository.VerificationTokenRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,16 @@ public class VerificationTokenService {
 		VerificationToken verificationToken = new VerificationToken(token, user);
 		verificationTokenRepository.save(verificationToken);
 		return token;
+	}
+
+	public VerificationToken getToken(String token) {
+		return verificationTokenRepository.findByToken(token).orElse(null);
+	}
+
+	@Transactional
+	public boolean isTokenExpired(VerificationToken token) {
+		token.setInvoked(true);
+		verificationTokenRepository.save(token);
+		return token.getExpiredTime().isBefore(LocalDateTime.now());
 	}
 }

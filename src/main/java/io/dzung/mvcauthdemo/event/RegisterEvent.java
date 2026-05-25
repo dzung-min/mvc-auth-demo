@@ -1,6 +1,6 @@
 package io.dzung.mvcauthdemo.event;
 
-import io.dzung.mvcauthdemo.model.User;
+import io.dzung.mvcauthdemo.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

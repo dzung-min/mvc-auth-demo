@@ -27,7 +27,7 @@ public class AfterRegisterEventListener {
 		    		<html>
 		    			<body>
 		    				<h2>Please click the link to complete your registration</h2>
-		    				<a href="http://localhost:8080/confirm?token=%s">Confirm</a>
+		    				<a href="http://localhost:8080/verify?token=%s">Confirm</a>
 		    			</body>
 		    		</html>
 		    		""".formatted(event.getToken());

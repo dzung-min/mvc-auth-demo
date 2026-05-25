@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.exception;
+package io.dzung.mvcauthdemo.util.exception;
 
 public class EmailExistException extends RuntimeException {
     private static final long serialVersionUID = 1L;
