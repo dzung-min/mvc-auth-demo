@@ -2,15 +2,7 @@ package io.dzung.mvcauthdemo.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +26,9 @@ public class VerificationToken {
     @Column(columnDefinition = "UUID", nullable = false, unique = true)
     private String token;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    private boolean isInvoked;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
@@ -44,6 +38,7 @@ public class VerificationToken {
     public VerificationToken(String token, User user) {
         this.token = token;
         this.user = user;
+        this.isInvoked = false;
         this.expiredTime = LocalDateTime.now().plusHours(DURATION);
     }
 }

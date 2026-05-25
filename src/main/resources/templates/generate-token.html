@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MVC Auth Demo</title>
+</head>
+<body>
+    <h2>Reissue Confirmation Email</h2>
+    <p>Your confirmation email is expired. Click the button to get another one.</p>
+    <form th:action="@{/reissue}" method="post">
+        <input type="hidden" name="user_id" th:value="${user_id}">
+        <input type="submit" value="Reissue Email">
+    </form>
+</body>
+</html>

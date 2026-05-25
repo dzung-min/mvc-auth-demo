@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Login</h1>
+    <p th:if="${successMessage}" th:text="${successMessage}"></p>
     <p th:if="${param.error}">Invalid email and password</p>
-    <p th:if="${register_success}" th:text="${register_success}"></p>
     <form th:action="@{/login}" method="post">
         <div>
             <label for="email">Email</label>

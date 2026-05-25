@@ -31,4 +31,14 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(registerDto.password()));
         return userRepository.save(newUser);
     }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public void enableUser(User user) {
+        user.setEnable(true);
+        userRepository.save(user);
+    }
 }

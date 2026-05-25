@@ -6,9 +6,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync
-public class MvcauthdemoApplication {
+public class MvcAuthDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MvcauthdemoApplication.class, args);
+		SpringApplication.run(MvcAuthDemoApplication.class, args);
 	}
 }
