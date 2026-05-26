@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mvc Auth Demo</title>
+    <title>Home</title>
 </head>
 
 <body>
-    <h1>Home</h1>
+    <section layout:fragment="content">
+        <h1 class="text-center">Home</h1>
+    </section>
 </body>
 
 </html>

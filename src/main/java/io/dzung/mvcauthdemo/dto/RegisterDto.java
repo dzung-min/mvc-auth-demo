@@ -21,5 +21,9 @@ public record RegisterDto(
         if (password == null || confirmPassword == null) return false;
         return password.equals(confirmPassword);
     }
+
+    public RegisterDto() {
+        this(null, null, null);
+    }
 }
 // @formatter:on

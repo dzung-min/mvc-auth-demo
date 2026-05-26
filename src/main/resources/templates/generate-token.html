@@ -1,16 +1,19 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MVC Auth Demo</title>
+    <title>Reissue Confirmation Email</title>
 </head>
 <body>
-    <h2>Reissue Confirmation Email</h2>
-    <p>Your confirmation email is expired. Click the button to get another one.</p>
-    <form th:action="@{/reissue}" method="post">
-        <input type="hidden" name="user_id" th:value="${user_id}">
-        <input type="submit" value="Reissue Email">
-    </form>
+    <section layout:fragment="content">
+        <div class="row">
+            <h1 class="text-center">Reissue Confirmation Email</h1>
+            <p class="text-center">Your confirmation email is expired. Click the button to get another one.</p>
+            <form th:action="@{/reissue}" method="post">
+                <input type="hidden" name="user_id" th:value="${user_id}">
+                <input class="btn btn-primary" type="submit" value="Reissue Email">
+            </form>
+        </div>
+    </section>
 </body>
 </html>

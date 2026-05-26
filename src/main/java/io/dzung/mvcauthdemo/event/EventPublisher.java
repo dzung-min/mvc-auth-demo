@@ -1,4 +1,4 @@
-package io.dzung.mvcauthdemo.config;
+package io.dzung.mvcauthdemo.event;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

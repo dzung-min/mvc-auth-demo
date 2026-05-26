@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import io.dzung.mvcauthdemo.config.EventPublisher;
+import io.dzung.mvcauthdemo.event.EventPublisher;
 import io.dzung.mvcauthdemo.dto.RegisterDto;
 import io.dzung.mvcauthdemo.event.RegisterEvent;
-import io.dzung.mvcauthdemo.util.exception.EmailExistException;
-import io.dzung.mvcauthdemo.util.exception.PasswordMisMatchException;
 import io.dzung.mvcauthdemo.entity.User;
 import io.dzung.mvcauthdemo.service.UserService;
 import io.dzung.mvcauthdemo.service.VerificationTokenService;
@@ -29,7 +27,8 @@ public class AuthController {
 	private final VerificationTokenService verificationTokenService;
 
 	@GetMapping("/register")
-	public String showRegisterForm(@ModelAttribute("user") RegisterDto registerDto) {
+	public String showRegisterForm(Model model) {
+		model.addAttribute("user", new RegisterDto());
 		return "register-form";
 	}
 
@@ -39,22 +38,22 @@ public class AuthController {
 		if (bindingResult.hasErrors()) {
 			return "register-form";
 		}
-		try {
-			User user = userService.createUser(registerDto);
-			String token = verificationTokenService.createToken(user);
-			RegisterEvent event = new RegisterEvent(user, token);
-			eventPublisher.publish(event);
-		} catch (Throwable e) {
-			if (e instanceof PasswordMisMatchException) {
-				bindingResult.rejectValue("confirmPassword", "password_mismatch", e.getMessage());
-				return "register-form";
-			}
-			if (e instanceof EmailExistException) {
-				redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-				return "redirect:/register";
-			}
+		if (!registerDto.isPasswordMatch()) {
+			bindingResult.rejectValue("confirmPassword", "password_mismatch", "Confirm password mismatch");
+			return "register-form";
 		}
-		redirectAttributes.addFlashAttribute("successMessage", "Your account has been created");
+		User existingUser = userService.getUserByEmail(registerDto.email());
+		if (existingUser != null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Email Already Exists");
+			return "redirect:/register";
+		}
+
+		User user = userService.createUser(registerDto);
+		String token = verificationTokenService.createToken(user);
+		RegisterEvent event = new RegisterEvent(user, token);
+		eventPublisher.publish(event);
+
+		redirectAttributes.addFlashAttribute("successMessage", "Your account has been created. A verification email will be send shortly.");
 		return "redirect:/login";
 	}
 

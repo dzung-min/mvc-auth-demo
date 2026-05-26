@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AfterRegisterEventListener {
+public class RegisterEventListener {
 	private final JavaMailSender mailSender;
 	
 	@EventListener
@@ -21,7 +21,7 @@ public class AfterRegisterEventListener {
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 		    messageHelper.setFrom("noreply@mvcauthdemo.dzung.io");
-		    messageHelper.setTo(event.getUser().getEmail());
+		    messageHelper.setTo(event.user().getEmail());
 		    messageHelper.setSubject("Email confirmation");
 		    String htmlContent = """
 		    		<html>
@@ -30,7 +30,7 @@ public class AfterRegisterEventListener {
 		    				<a href="http://localhost:8080/verify?token=%s">Confirm</a>
 		    			</body>
 		    		</html>
-		    		""".formatted(event.getToken());
+		    		""".formatted(event.token());
 		    messageHelper.setText(htmlContent, true);
 		};
 		try {

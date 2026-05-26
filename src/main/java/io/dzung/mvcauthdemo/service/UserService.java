@@ -17,15 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
-    public User createUser(RegisterDto registerDto) throws EmailExistException, PasswordMisMatchException {
-        if (!registerDto.isPasswordMatch()) {
-            throw new PasswordMisMatchException();
-        }
-        User existingUser = userRepository.findByEmail(registerDto.email()).orElse(null);
-        if (existingUser != null) {
-            throw new EmailExistException();
-        }
+    public User createUser(RegisterDto registerDto) {
         User newUser = new User();
         newUser.setEmail(registerDto.email());
         newUser.setPassword(passwordEncoder.encode(registerDto.password()));
@@ -34,6 +26,10 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     @Transactional
