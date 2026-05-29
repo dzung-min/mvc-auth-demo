@@ -2,6 +2,7 @@ package io.dzung.mvcauthdemo.entity;
 
 import java.time.LocalDateTime;
 
+import io.dzung.mvcauthdemo.util.exception.TokenType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +18,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class VerificationToken {
-    private static final int DURATION = 24; // hours
-
+    private static final int REGISTER_VERIFY_TOKEN_DURATION = 24 * 60;      // minutes
+    private static final int CHANGE_PASSWORD_VERIFY_TOKEN_DURATION = 15;    // minutes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "UUID", nullable = false, unique = true)
     private String token;
+
+    @Enumerated(EnumType.STRING)
+    private TokenType type;
 
     private boolean isInvoked;
 
@@ -35,10 +39,12 @@ public class VerificationToken {
     @Column(nullable = false)
     private LocalDateTime expiredTime;
 
-    public VerificationToken(String token, User user) {
+    public VerificationToken(User user, String token, TokenType type) {
         this.token = token;
         this.user = user;
         this.isInvoked = false;
-        this.expiredTime = LocalDateTime.now().plusHours(DURATION);
+        this.type = type;
+        if (type == TokenType.VERIFY_REGISTER_EMAIL) expiredTime = LocalDateTime.now().plusMinutes(REGISTER_VERIFY_TOKEN_DURATION);
+        if (type == TokenType.VERIFY_CHANGE_PASSWORD_REQUEST) expiredTime = LocalDateTime.now().plusMinutes(CHANGE_PASSWORD_VERIFY_TOKEN_DURATION);
     }
 }

@@ -3,6 +3,7 @@ package io.dzung.mvcauthdemo.service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import io.dzung.mvcauthdemo.util.exception.TokenType;
 import org.springframework.stereotype.Service;
 
 import io.dzung.mvcauthdemo.entity.User;
@@ -17,14 +18,14 @@ public class VerificationTokenService {
 	private final VerificationTokenRepository verificationTokenRepository;
 	
 	@Transactional
-	public String createToken(User user) {
+	public String createToken(User user, TokenType tokenType) {
 		String token;
 		VerificationToken existingToken;
 		do {
 			token = UUID.randomUUID().toString();
 			existingToken = verificationTokenRepository.findByToken(token).orElse(null);
 		} while (existingToken != null);
-		VerificationToken verificationToken = new VerificationToken(token, user);
+		VerificationToken verificationToken = new VerificationToken(user, token, tokenType);
 		verificationTokenRepository.save(verificationToken);
 		return token;
 	}

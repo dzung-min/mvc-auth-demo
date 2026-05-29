@@ -1,6 +1,7 @@
 package io.dzung.mvcauthdemo.controller;
 
 import io.dzung.mvcauthdemo.entity.VerificationToken;
+import io.dzung.mvcauthdemo.util.exception.TokenType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,7 +50,7 @@ public class AuthController {
 		}
 
 		User user = userService.createUser(registerDto);
-		String token = verificationTokenService.createToken(user);
+		String token = verificationTokenService.createToken(user, TokenType.VERIFY_REGISTER_EMAIL);
 		RegisterEvent event = new RegisterEvent(user, token);
 		eventPublisher.publish(event);
 
@@ -81,7 +82,7 @@ public class AuthController {
 			redirectAttributes.addFlashAttribute("errorMessage", "You don't have an account. Please register.");
 			return "redirect:/register";
 		}
-		String token = verificationTokenService.createToken(user);
+		String token = verificationTokenService.createToken(user, TokenType.VERIFY_REGISTER_EMAIL);
 		RegisterEvent event = new RegisterEvent(user, token);
 		eventPublisher.publish(event);
 		redirectAttributes.addFlashAttribute("successMessage", "Success. You will receive a verification email shortly.");
