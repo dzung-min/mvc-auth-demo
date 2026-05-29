@@ -93,4 +93,18 @@ public class AuthController {
 	public String showForgetPasswordForm() {
 		return "forget-password";
 	}
+
+	@PostMapping("/forget-password")
+	public String processForgetPasswordRequest(String email, RedirectAttributes redirectAttributes) {
+		User user = userService.getUserByEmail(email);
+		if (user == null || !user.isEnable()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Invalid account. Please register or activate your account.");
+			return "redirect:/register";
+		}
+		VerificationToken changePasswordRequestToken = verificationTokenService.createToken(user, TokenType.VERIFY_CHANGE_PASSWORD_REQUEST);
+		AuthEvent event = new AuthEvent(user, changePasswordRequestToken);
+		eventPublisher.publish(event);
+		redirectAttributes.addFlashAttribute("successMessage", "The link to change your password has been sent.");
+		return "redirect:/login";
+	}
 }
