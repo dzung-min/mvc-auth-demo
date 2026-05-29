@@ -7,7 +7,7 @@
 <body>
     <section layout:fragment="content">
         <div class="row">
-            <div class="col-md-4 mx-auto">
+            <div class="col-md-6 mx-auto">
                 <h1 class="text-center">Login</h1>
                 <p class="alert alert-success" role="alert" th:if="${successMessage}" th:text="${successMessage}"></p>
                 <p class="alert alert-warning" role="alert" th:if="${param.error}">Invalid email and password</p>
@@ -24,6 +24,7 @@
                         <input class="btn btn-primary" type="submit" value="Login">
                         <a class="btn btn-secondary" th:href="@{/register}">Register</a>
                     </div>
+                    <a class="link-info" th:href="@{/forget-password}">Forget Password</a>
                 </form>
             </div>
         </div>

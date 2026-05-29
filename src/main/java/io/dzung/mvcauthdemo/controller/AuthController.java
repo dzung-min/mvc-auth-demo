@@ -88,4 +88,9 @@ public class AuthController {
 		redirectAttributes.addFlashAttribute("successMessage", "Success. You will receive a verification email shortly.");
 		return "redirect:/login";
 	}
+
+	@GetMapping("/forget-password")
+	public String showForgetPasswordForm() {
+		return "forget-password";
+	}
 }

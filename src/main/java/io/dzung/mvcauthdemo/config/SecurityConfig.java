@@ -24,6 +24,7 @@ public class SecurityConfig {
                                 "/register",
                                 "/register-verification",
                                 "/reissue",
+                                "/forget-password",
                                 "/css/**", "/js/**", "/images/**"
                         ).permitAll() // endpoints for authentication
                         .anyRequest().authenticated())
