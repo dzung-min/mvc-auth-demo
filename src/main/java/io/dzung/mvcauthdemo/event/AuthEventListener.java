@@ -1,5 +1,6 @@
 package io.dzung.mvcauthdemo.event;
 
+import io.dzung.mvcauthdemo.util.exception.TokenType;
 import org.springframework.context.event.EventListener;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,12 +13,13 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class RegisterEventListener {
+public class AuthEventListener {
 	private final JavaMailSender mailSender;
 	
 	@EventListener
 	@Async
-	public void listen(RegisterEvent event) {
+	public void listen(AuthEvent event) {
+		String path = event.token().getType() == TokenType.VERIFY_REGISTER_EMAIL ? "register-verification" : "forget-password-verification";
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 		    messageHelper.setFrom("noreply@mvcauthdemo.dzung.io");
@@ -27,10 +29,10 @@ public class RegisterEventListener {
 		    		<html>
 		    			<body>
 		    				<h2>Please click the link to complete your registration</h2>
-		    				<a href="http://localhost:8080/verify?token=%s">Confirm</a>
+		    				<a href="http://localhost:8080/%s?token=%s">Confirm</a>
 		    			</body>
 		    		</html>
-		    		""".formatted(event.token());
+		    		""".formatted(path, event.token());
 		    messageHelper.setText(htmlContent, true);
 		};
 		try {

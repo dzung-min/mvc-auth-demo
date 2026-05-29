@@ -18,8 +18,14 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/logout", "/register", "/verify", "/reissue").permitAll() // endpoints for authentication
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // static resources
+                        .requestMatchers(
+                                "/login",
+                                "/logout",
+                                "/register",
+                                "/register-verification",
+                                "/reissue",
+                                "/css/**", "/js/**", "/images/**"
+                        ).permitAll() // endpoints for authentication
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

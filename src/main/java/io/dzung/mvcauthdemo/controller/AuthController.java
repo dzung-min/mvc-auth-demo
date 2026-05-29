@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.dzung.mvcauthdemo.event.EventPublisher;
 import io.dzung.mvcauthdemo.dto.RegisterDto;
-import io.dzung.mvcauthdemo.event.RegisterEvent;
+import io.dzung.mvcauthdemo.event.AuthEvent;
 import io.dzung.mvcauthdemo.entity.User;
 import io.dzung.mvcauthdemo.service.UserService;
 import io.dzung.mvcauthdemo.service.VerificationTokenService;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	private final UserService userService;
-	private final EventPublisher<RegisterEvent> eventPublisher;
+	private final EventPublisher<AuthEvent> eventPublisher;
 	private final VerificationTokenService verificationTokenService;
 
 	@GetMapping("/register")
@@ -50,24 +50,24 @@ public class AuthController {
 		}
 
 		User user = userService.createUser(registerDto);
-		String token = verificationTokenService.createToken(user, TokenType.VERIFY_REGISTER_EMAIL);
-		RegisterEvent event = new RegisterEvent(user, token);
+		VerificationToken token = verificationTokenService.createToken(user, TokenType.VERIFY_REGISTER_EMAIL);
+		AuthEvent event = new AuthEvent(user, token);
 		eventPublisher.publish(event);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Your account has been created. A verification email will be send shortly.");
 		return "redirect:/login";
 	}
 
-	@GetMapping("/verify")
+	@GetMapping("/register-verification")
 	public String processVerificationToken(@RequestParam("token") String passingToken, RedirectAttributes redirectAttributes, Model model) {
 		VerificationToken verificationToken = verificationTokenService.getToken(passingToken);
-		if (verificationToken == null) {
+		if (verificationToken == null || verificationToken.getType() != TokenType.VERIFY_REGISTER_EMAIL) {
 			redirectAttributes.addFlashAttribute("errorMessage", "Token not found. Please register.");
 			return "redirect:/register";
 		}
-		if (verificationTokenService.isTokenExpired(verificationToken)) {
-
-			model.addAttribute("user_id", verificationToken.getUser().getId());
+		VerificationToken currentInvokedToken = verificationTokenService.markTokenAsInvolved(verificationToken);
+		if (verificationTokenService.isTokenExpired(currentInvokedToken)) {
+			model.addAttribute("user_id", currentInvokedToken.getUser().getId());
 			return "generate-token";
 		}
 		userService.enableUser(verificationToken.getUser());
@@ -82,8 +82,8 @@ public class AuthController {
 			redirectAttributes.addFlashAttribute("errorMessage", "You don't have an account. Please register.");
 			return "redirect:/register";
 		}
-		String token = verificationTokenService.createToken(user, TokenType.VERIFY_REGISTER_EMAIL);
-		RegisterEvent event = new RegisterEvent(user, token);
+		VerificationToken token = verificationTokenService.createToken(user, TokenType.VERIFY_REGISTER_EMAIL);
+		AuthEvent event = new AuthEvent(user, token);
 		eventPublisher.publish(event);
 		redirectAttributes.addFlashAttribute("successMessage", "Success. You will receive a verification email shortly.");
 		return "redirect:/login";
